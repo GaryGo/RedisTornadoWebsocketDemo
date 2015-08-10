@@ -12,7 +12,6 @@ import tornadoredis
 import tornadoredis.pubsub
 import sockjs.tornado
 
-
 id = 1
 
 # friend = {"1" : ["3", "2"], "2" : ["1"], "3" : ["1"]}

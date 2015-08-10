@@ -2,9 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
-        <title>Tornado Server</title>
-
-        
+        <title>Tornado Server</title>        
     </head>
     <body onload="say()">
     		<div id="show-id" style="min-height: 20px; width: 300px; border: 1px solid red;"></div>
@@ -19,7 +17,6 @@
     		function say() {
     			var sockJS = new SockJS("//127.0.0.1:8888/getdata");
     			sockJS.onopen = function() {
-    				// alert("websocket open");
 
     			};
 
@@ -38,12 +35,10 @@
     			};
 
     			sockJS.onclose = function() {
-    				// alert("websock close");
     			};
      		}
 
      		function sub_post() {
-     			// alert($('#show-id').html());
      			$.ajax({
      				type: "post",
      				data: {'message' : $('#the-input').val(),
