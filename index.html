@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>Tornado Server</title>
+
+        
+    </head>
+    <body onload="say()">
+    		<div id="show-id" style="min-height: 20px; width: 300px; border: 1px solid red;"></div>
+    		<div id="from-user" style="min-height: 20px; width: 300px; border: 1px solid gray;"></div>
+    		<div id="show-message" style="min-height: 20px; width: 300px; border: 1px solid red;"></div>
+    	<input id="the-input" name="message">
+    	<button id="btn" onclick="sub_post()">submit</button>
+    	
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.0.2/sockjs.min.js"></script>
+    	<script>
+    		function say() {
+    			var sockJS = new SockJS("//127.0.0.1:8888/getdata");
+    			sockJS.onopen = function() {
+    				// alert("websocket open");
+
+    			};
+
+    			sockJS.onmessage = function(event) {
+    				event.data = JSON.parse(event.data);
+    				var msg = event.data.msg,
+    					id = event.data.id;
+    					from = event.data.from;
+    				if (id) {
+    					$('#show-id').html(id);
+    				}
+    				if (from) {
+    					$('#from-user').html(from);
+    				}
+    				$('#show-message').html(msg);
+    			};
+
+    			sockJS.onclose = function() {
+    				// alert("websock close");
+    			};
+     		}
+
+     		function sub_post() {
+     			// alert($('#show-id').html());
+     			$.ajax({
+     				type: "post",
+     				data: {'message' : $('#the-input').val(),
+     						'id' : $('#show-id').html()
+     				},
+     				url: "http://localhost:8888/send",
+     				success: function(data) {
+     					// alert('here');
+     					var content = $('#show-message').html();
+     					content += "<br> Successful send!";
+     					$('#show-message').html(content);
+     				}
+     			})
+     		}
+    	</script>
+    </body>
+</html>
